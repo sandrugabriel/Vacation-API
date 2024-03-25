@@ -21,5 +21,33 @@ namespace VacationAPI.Repository
         {
             return await _context.Vacations.ToListAsync();
         }
+
+        public async Task<Vacation> GetByIdAsync(int id)
+        {
+            List<Vacation> cars = await _context.Vacations.ToListAsync();
+
+            for (int i = 0; i < cars.Count; i++)
+            {
+                if (cars[i].Id == id) return cars[i];
+            }
+
+            return null;
+        }
+
+        public async Task<Vacation> GetByNameAsync(string destination)
+        {
+            List<Vacation> allcars = await _context.Vacations.ToListAsync();
+
+            for (int i = 0; i < allcars.Count; i++)
+            {
+                if (allcars[i].Destination.Equals(destination))
+                {
+                    return allcars[i];
+                }
+            }
+
+            return null;
+        }
+
     }
 }

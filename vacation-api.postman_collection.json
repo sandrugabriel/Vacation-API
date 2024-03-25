@@ -26,6 +26,51 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "FindById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7264/findById?id=2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7264",
+					"path": [
+						"findById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindByDestination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7264/find/Paris",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7264",
+					"path": [
+						"find",
+						"Paris"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

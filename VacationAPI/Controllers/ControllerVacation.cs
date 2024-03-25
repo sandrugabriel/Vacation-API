@@ -27,5 +27,21 @@ namespace VacationAPI.Controllers
             return Ok(products);
         }
 
+
+        [HttpGet("/findById")]
+        public async Task<ActionResult<Vacation>> GetById([FromQuery] int id)
+        {
+            var car = await _repository.GetByIdAsync(id);
+            return Ok(car);
+        }
+
+
+        [HttpGet("/find/{destination}")]
+        public async Task<ActionResult<Vacation>> GetByNameRoute([FromRoute] string destination)
+        {
+            var car = await _repository.GetByNameAsync(destination);
+            return Ok(car);
+        }
+
     }
 }

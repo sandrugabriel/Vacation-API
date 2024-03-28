@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using VacationAPI.Data;
+using VacationAPI.Dto;
 using VacationAPI.Models;
 using VacationAPI.Repository.interfaces;
 
@@ -49,5 +50,45 @@ namespace VacationAPI.Repository
             return null;
         }
 
+
+        public async Task<Vacation> Create(CreateRequest request)
+        {
+
+            var vacantion = _mapper.Map<Vacation>(request);
+
+            _context.Vacations.Add(vacantion);
+
+            await _context.SaveChangesAsync();
+
+            return vacantion;
+        }
+
+        public async Task<Vacation> Update(int id, UpdateRequest request)
+        {
+
+            var vacantion = await _context.Vacations.FindAsync(id);
+
+            vacantion.Destination = request.Destination ?? vacantion.Destination;
+            vacantion.duration = request.Duration ?? vacantion.duration;
+            vacantion.Price = request.Price ?? vacantion.Price;
+
+            _context.Vacations.Update(vacantion);
+
+            await _context.SaveChangesAsync();
+
+            return vacantion;
+
+        }
+
+        public async Task<Vacation> DeleteById(int id)
+        {
+            var vacantion = await _context.Vacations.FindAsync(id);
+
+            _context.Vacations.Remove(vacantion);
+
+            await _context.SaveChangesAsync();
+
+            return vacantion;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using VacationAPI.Dto;
 using VacationAPI.Models;
 using VacationAPI.Repository.interfaces;
 
@@ -42,6 +43,30 @@ namespace VacationAPI.Controllers
             var car = await _repository.GetByNameAsync(destination);
             return Ok(car);
         }
+
+
+        [HttpPost("/create")]
+        public async Task<ActionResult<Vacation>> Create([FromBody] CreateRequest request)
+        {
+            var vacation = await _repository.Create(request);
+            return Ok(vacation);
+
+        }
+
+        [HttpPut("/update")]
+        public async Task<ActionResult<Vacation>> Update([FromQuery] int id, [FromBody] UpdateRequest request)
+        {
+            var vacation = await _repository.Update(id, request);
+            return Ok(vacation);
+        }
+
+        [HttpDelete("/deleteById")]
+        public async Task<ActionResult<Vacation>> DeleteCarById([FromQuery] int id)
+        {
+            var vacation = await _repository.DeleteById(id);
+            return Ok(vacation);
+        }
+
 
     }
 }

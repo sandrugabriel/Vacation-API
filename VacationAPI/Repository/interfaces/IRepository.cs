@@ -1,4 +1,5 @@
-﻿using VacationAPI.Models;
+﻿using VacationAPI.Dto;
+using VacationAPI.Models;
 
 namespace VacationAPI.Repository.interfaces
 {
@@ -9,5 +10,12 @@ namespace VacationAPI.Repository.interfaces
         Task<Vacation> GetByNameAsync(string destination);
 
         Task<Vacation> GetByIdAsync(int id);
+
+
+        Task<Vacation> Create(CreateRequest request);
+
+        Task<Vacation> Update(int id, UpdateRequest request);
+
+        Task<Vacation> DeleteById(int id);
     }
 }

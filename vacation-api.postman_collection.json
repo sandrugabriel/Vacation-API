@@ -71,6 +71,93 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7264/deleteById?id=6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7264",
+					"path": [
+						"deleteById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"price\": 5000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7264/update?id=5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7264",
+					"path": [
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"price\": 5000,\r\n  \"duration\": 5,\r\n  \"destination\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7264/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7264",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

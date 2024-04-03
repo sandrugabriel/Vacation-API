@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using VacationAPI.Data;
 using VacationAPI.Repository;
 using VacationAPI.Repository.interfaces;
+using VacationAPI.Service;
+using VacationAPI.Service.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRepository, RepositoryVacation>();
+builder.Services.AddScoped<ICommandService,CommandService>();
+builder.Services.AddScoped<IQueryService,QueryService>();
 
 builder.Services.AddDbContext<AppDbContext>(option => option.UseMySql(builder.Configuration.GetConnectionString("Default")!,
     new MySqlServerVersion(new Version(8, 0, 6))));

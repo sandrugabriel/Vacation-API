@@ -1,72 +1,115 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using VacationAPI.Controllers.interfaces;
 using VacationAPI.Dto;
+using VacationAPI.Exceptions;
 using VacationAPI.Models;
 using VacationAPI.Repository.interfaces;
+using VacationAPI.Service.interfaces;
 
 namespace VacationAPI.Controllers
 {
-    [ApiController]
-    [Route("api/v1/vacation")]
-    public class ControllerVacation : ControllerBase
+
+    public class ControllerVacation : ControllerAPI
     {
 
-        private readonly ILogger<ControllerVacation> _logger;
 
-        private IRepository _repository;
+        private IQueryService _queryService;
+        private ICommandService _commandService;
 
-        public ControllerVacation(ILogger<ControllerVacation> logger, IRepository repository)
+        public ControllerVacation(IQueryService queryService, ICommandService commandService)
         {
-            _logger = logger;
-            _repository = repository;
+            _queryService = queryService;
+            _commandService = commandService;
         }
 
-        [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<Vacation>>> GetAll()
+        public override async Task<ActionResult<List<Vacation>>> GetAll()
         {
-            var products = await _repository.GetAllAsync();
-            return Ok(products);
+            try
+            {
+                var vacations = await _queryService.GetAll();
+
+                return Ok(vacations);
+
+            }
+            catch (ItemsDoNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-
-        [HttpGet("/findById")]
-        public async Task<ActionResult<Vacation>> GetById([FromQuery] int id)
+        public override async Task<ActionResult<Vacation>> GetByName([FromQuery] string name)
         {
-            var car = await _repository.GetByIdAsync(id);
-            return Ok(car);
-        }
 
-
-        [HttpGet("/find/{destination}")]
-        public async Task<ActionResult<Vacation>> GetByNameRoute([FromRoute] string destination)
-        {
-            var car = await _repository.GetByNameAsync(destination);
-            return Ok(car);
-        }
-
-
-        [HttpPost("/create")]
-        public async Task<ActionResult<Vacation>> Create([FromBody] CreateRequest request)
-        {
-            var vacation = await _repository.Create(request);
-            return Ok(vacation);
+            try
+            {
+                var vacation = await _queryService.GetByNameAsync(name);
+                return Ok(vacation);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
 
         }
 
-        [HttpPut("/update")]
-        public async Task<ActionResult<Vacation>> Update([FromQuery] int id, [FromBody] UpdateRequest request)
+        public override async Task<ActionResult<Vacation>> GetById([FromQuery] int id)
         {
-            var vacation = await _repository.Update(id, request);
-            return Ok(vacation);
+
+            try
+            {
+                var vacation = await _queryService.GetById(id);
+                return Ok(vacation);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+
         }
 
-        [HttpDelete("/deleteById")]
-        public async Task<ActionResult<Vacation>> DeleteCarById([FromQuery] int id)
+        public override async Task<ActionResult<Vacation>> CreateVacation(CreateRequest request)
         {
-            var vacation = await _repository.DeleteById(id);
-            return Ok(vacation);
+            try
+            {
+                var vacation = await _commandService.Create(request);
+                return Ok(vacation);
+            }
+            catch (InvaidPrice ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        public override async Task<ActionResult<Vacation>> UpdateVacation([FromQuery] int id, UpdateRequest request)
+        {
+            try
+            {
+                var vacation = await _commandService.Update(id, request);
+                return Ok(vacation);
+            }
+            catch (InvaidPrice ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<Vacation>> DeleteVacation([FromQuery] int id)
+        {
+            try
+            {
+                var vacation = await _commandService.Delete(id);
+                return Ok(vacation);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
     }
 }

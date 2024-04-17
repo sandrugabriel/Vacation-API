@@ -57,7 +57,7 @@ namespace VacationAPI.Service
             {
                 throw new ItemDoesNotExist(Constants.Constants.ItemDoesNotExist);
             }
-            vacation = await _repository.DeleteById(id);
+            await _repository.DeleteById(id);
             return vacation;
         }
     }

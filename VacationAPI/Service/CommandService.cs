@@ -41,7 +41,7 @@ namespace VacationAPI.Service
             }
 
 
-            if (vacation.Price <= 0)
+            if (request.Price <= 0)
             {
                 throw new InvaidPrice(Constants.Constants.InvalidPrice);
             }
